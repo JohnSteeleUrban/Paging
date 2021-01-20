@@ -1,0 +1,64 @@
+﻿@using PagingExampleApp.Models.Shared
+@model PagerDataModel<PagingExampleApp.Models.Person>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>People</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<div class="row">
+    <div class="col-12">
+        @await Html.PartialAsync("_Search", new Search() { Action = "Index", Controller = "Home", TextPlaceHolder = "Search: First name or last." })
+    </div>
+</div>
+
+<div style="margin-bottom: 50px;">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                LastName
+                            </th>
+                            <th>
+                                FirstName
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Data)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" style="margin-top: 10px;">
+            @await Html.PartialAsync("_Pager", new Pager { Action = "Users", PageSize = Model.PageSize, TotalCount = Model.TotalCount, EnableSearch = true, Search = ViewBag.Search })
+        </div>
+    </div>
+
+</div>
